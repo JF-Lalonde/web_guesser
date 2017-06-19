@@ -3,5 +3,5 @@ require 'sinatra'
 x = rand(100)
 
 get '/' do
-  "Your number is #{x}!"
+  "The secret number is #{x}!"
 end
