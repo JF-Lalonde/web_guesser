@@ -8,6 +8,10 @@ get '/' do
   # message = check_guess(guess)
   if guess > number
     message = "Too High!"
+  elsif guess < number
+    message = "Too Low!"
+  elsif guess == number
+    message = "Right on brother!"
   end
   erb :index, :locals => {:number => number, :message => message}
 end
