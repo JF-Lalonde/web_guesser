@@ -1,18 +1,28 @@
 require 'sinatra'
 require 'sinatra/reloader'
 
-  set :number, rand(100)
+  set :number, rand(101)
 
   get '/' do
     guess = params['guess'].to_i
+    cheat = cheat_mode
     message = check_guess(guess)[0]
     reveal = check_guess(guess)[1]
     color = check_guess(guess)[2]
-    erb :index, :locals => {reveal: reveal, message: message, color: color}
+    erb :index, :locals => {reveal: reveal, message: message, color: color,
+    cheat: cheat}
+  end
+
+  def cheat_mode
+    if params['cheat'] == "true"
+      "The number is #{settings.number} you CHEATER!"
+    end
   end
 
   def check_guess(guess)
-    if guess > settings.number
+    if params['guess'].nil?
+      return "", "", "white"
+    elsif guess > settings.number
       return too_high(guess)[0], " ", too_high(guess)[1]
     elsif guess < settings.number
       return too_low(guess)[0], " ", too_low(guess)[1]
